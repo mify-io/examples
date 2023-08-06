@@ -1,0 +1,4 @@
+language: go
+template: nuxtjs
+service_name: books-service-origin
+maintainers: []

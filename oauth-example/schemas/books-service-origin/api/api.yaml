@@ -1,0 +1,86 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: books-service
+  description: This service provides API for accessing and modifying books stored in database
+  contact:
+    name: Maintainer name
+    email: test@mify.io # Replace with your email
+# Add your local and cloud service url here for testing with Swagger UI.
+# You can also add prefix for all paths like this:
+#  - url: <service-url>/api
+servers:
+  - url: <service-url>/
+paths:
+  /books:
+    get:
+      summary: get all books
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBooksResponse'
+    put:
+      summary: create new book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+  /books/{id}:
+    get:
+      summary: get book by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: numeric ID of the book to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+        - id
+        - name
+    GetBooksResponse:
+      type: object
+      properties:
+        books:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+      required:
+        - books
+    CreateBookRequest:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
